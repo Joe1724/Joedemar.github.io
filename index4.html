@@ -1,15 +1,82 @@
-<html lang="en"></html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE-edge" />
-        <meta name="viewport" content="with=device-width, initial-scale=1.0" />
-        <title>Background Video</title>
-        <link rel="stylesheet" href="style3.css" />
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Background Video</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000; /* Set background color */
+            overflow: hidden;
+        }
+
+        /* Hero section for responsive layout */
+        .hero {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .hero img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            object-fit: cover; /* Ensures the image covers the area */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero img {
+                width: 100%; /* Ensure image scales down on tablets */
+                height: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero img {
+                width: 100%; /* Ensure image scales down on phones */
+                height: auto;
+            }
+        }
+
+        /* Audio element styling */
+        audio {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+        }
+
+        /* Responsive audio control */
+        @media (max-width: 480px) {
+            audio {
+                width: 250px; /* Shrink audio control on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
     <section class="hero">
-        <img src="Assets/tenor.gif" alt="">
-        </video>
+        <img src="Assets/tenor.gif" alt="Animated GIF" />
         <audio autoplay>
-            <source src="Assets/[appsgolem.com][00-00-00][00-00-10]_I_FEEL_GOOD_PRANK_SOUND.mp3">
+            <source src="Assets/[appsgolem.com][00-00-00][00-00-10]_I_FEEL_GOOD_PRANK_SOUND.mp3" type="audio/mp3">
         </audio>
+    </section>
+</body>
 </html>
