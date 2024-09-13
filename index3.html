@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Roboto', sans-serif; /* Apply the new font */
-            background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient background */
+            font-family: 'Roboto', sans-serif; 
+            background: linear-gradient(to right, #ffffff, #bf18c5);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,18 +20,18 @@
         }
         .header-text {
             font-size: 32px;
-            color: #fff; /* White text for better contrast on gradient background */
-            margin-bottom: 20px; /* Space between header text and calendar */
+            color: #fff; 
+            margin-bottom: 20px;
         }
         .calendar {
             background-color: #fff;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            width: 600px; /* Increased width */
+            width: 600px;
         }
         .calendar-header {
-            background-color: #4CAF50;
+            background-color: #000000;
             color: white;
             padding: 20px;
             text-align: center;
@@ -53,13 +53,13 @@
         .date-cell {
             padding: 20px;
             border: 1px solid #ddd;
-            min-height: 80px; /* Increased height for better spacing */
+            min-height: 80px; 
             position: relative;
             background-color: #fafafa;
             transition: background-color 0.3s ease;
         }
         .date-cell:hover {
-            background-color: #4CAF50;
+            background-color: #bf18c5;
             color: white;
             cursor: pointer;
         }
@@ -69,11 +69,19 @@
             display: block;
             height: 100%;
             width: 100%;
-            line-height: 80px; /* Center the text vertically */
+            line-height: 80px;
         }
         .empty {
             background-color: #f9f9f9;
             border: none;
+        }
+        .nav-button {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -88,7 +96,8 @@
         <!-- Calendar -->
         <div class="calendar">
             <!-- Calendar Header -->
-            <div class="calendar-header">
+            <div class="calendar-header" id="calendarHeader">
+                <!-- Dynamic month and year -->
                 September 2024
             </div>
 
@@ -101,50 +110,89 @@
                 <div class="day-name">Thu</div>
                 <div class="day-name">Fri</div>
                 <div class="day-name">Sat</div>
+            </div>
 
-                <!-- Calendar Dates with links -->
-                <div class="date-cell empty"></div>
-                <div class="date-cell empty"></div>
-                <div class="date-cell empty"></div>
-                <div class="date-cell empty"></div>
-
-                <div class="date-cell"><a href="index4.html">1</a></div>
-                <div class="date-cell"><a href="index4.html">2</a></div>
-                <div class="date-cell"><a href="index4.html">3</a></div>
-
-                <div class="date-cell"><a href="index4.html">4</a></div>
-                <div class="date-cell"><a href="index4.html">5</a></div>
-                <div class="date-cell"><a href="index4.html">6</a></div>
-                <div class="date-cell"><a href="index4.html">7</a></div>
-                <div class="date-cell"><a href="index4.html">8</a></div>
-                <div class="date-cell"><a href="index4.html">9</a></div>
-                <div class="date-cell"><a href="index4.html">10</a></div>
-
-                <div class="date-cell"><a href="index4.html">11</a></div>
-                <div class="date-cell"><a href="index4.html">12</a></div>
-                <div class="date-cell"><a href="index4.html">13</a></div>
-                <div class="date-cell"><a href="index4.html">14</a></div>
-                <div class="date-cell"><a href="index4.html">15</a></div>
-                <div class="date-cell"><a href="index4.html">16</a></div>
-                <div class="date-cell"><a href="index4.html">17</a></div>
-
-                <div class="date-cell"><a href="index4.html">18</a></div>
-                <div class="date-cell"><a href="index4.html">19</a></div>
-                <div class="date-cell"><a href="index4.html">20</a></div>
-                <div class="date-cell"><a href="index4.html">21</a></div>
-                <div class="date-cell"><a href="index4.html">22</a></div>
-                <div class="date-cell"><a href="index4.html">23</a></div>
-                <div class="date-cell"><a href="index4.html">24</a></div>
-
-                <div class="date-cell"><a href="index4.html">25</a></div>
-                <div class="date-cell"><a href="index4.html">26</a></div>
-                <div class="date-cell"><a href="index4.html">27</a></div>
-                <div class="date-cell"><a href="index4.html">28</a></div>
-                <div class="date-cell"><a href="index4.html">29</a></div>
-                <div class="date-cell"><a href="index4.html">30</a></div>
+            <!-- Dates -->
+            <div class="calendar-days" id="calendarDates">
+                <!-- Dates will be dynamically injected here -->
             </div>
         </div>
+
+        <!-- Navigation Buttons -->
+        <button class="nav-button" id="prevMonth">Previous</button>
+        <button class="nav-button" id="nextMonth">Next</button>
     </div>
+
+    <script>
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // 2024 is a leap year, February has 29 days
+        let currentMonth = 8; // September (0-indexed)
+        let currentYear = 2024;
+
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        }
+
+        function renderCalendar(month, year) {
+            const calendarHeader = document.getElementById('calendarHeader');
+            const calendarDates = document.getElementById('calendarDates');
+
+            // Update header with current month and year
+            calendarHeader.innerHTML = `${monthNames[month]} ${year}`;
+
+            // Determine the number of days in the month
+            let days = daysInMonth[month];
+            if (month === 1 && isLeapYear(year)) days = 29; // Adjust for leap year
+
+            // Determine the starting day of the week
+            const firstDay = new Date(year, month, 1).getDay();
+
+            // Clear the current dates
+            calendarDates.innerHTML = '';
+
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.classList.add('date-cell', 'empty');
+                calendarDates.appendChild(emptyCell);
+            }
+
+            // Add the days of the month
+            for (let day = 1; day <= days; day++) {
+                const dateCell = document.createElement('div');
+                dateCell.classList.add('date-cell');
+                const link = document.createElement('a');
+                link.href = `index4.html`; // Placeholder link, change as needed
+                link.textContent = day;
+                dateCell.appendChild(link);
+                calendarDates.appendChild(dateCell);
+            }
+        }
+
+        // Initialize the calendar
+        renderCalendar(currentMonth, currentYear);
+
+        // Event listeners for month navigation
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+    </script>
 
 </body>
 </html>
