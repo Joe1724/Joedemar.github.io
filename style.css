@@ -45,3 +45,30 @@ body {
     background: #fff;
     color: #000;
 }
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .content h1 {
+        font-size: 80px; /* Adjust font size for smaller devices */
+    }
+    .content h2 {
+        font-size: 30px; /* Adjust subheading size */
+    }
+    .content a {
+        font-size: 20px; /* Reduce link text size */
+        padding: 12px 40px; /* Adjust padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .content h1 {
+        font-size: 60px; /* Further reduce for very small devices */
+    }
+    .content h2 {
+        font-size: 24px;
+    }
+    .content a {
+        font-size: 18px;
+        padding: 10px 30px;
+    }
+}
